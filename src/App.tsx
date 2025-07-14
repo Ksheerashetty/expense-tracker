@@ -1,35 +1,50 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import "./App.css";
 
 function App() {
-  const [count, setCount] = useState(0)
+  const transactions = [
+    {
+      id: 1,
+      date: "2025-07-01",
+      category: "Food",
+      amount: 20.0,
+      description: "Groceries",
+    },
+    {
+      id: 2,
+      date: "2025-07-02",
+      category: "Transport",
+      amount: 15.0,
+      description: "Bus Ticket",
+    },
+    {
+      id: 3,
+      date: "2025-07-03",
+      category: "Utilities",
+      amount: 100.0,
+      description: "Electricity Bill",
+    },
+  ];
 
+  const total = transactions.reduce((sum, transactions) => sum + transactions.amount, 0);
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <main>
+      <h1>Expense Tracker</h1>
+      <h3>Total spent</h3>
+      <input type="text" placeholder="Total spent" value={total} readOnly />
+      <br />
+      <input type="text" placeholder="Add new expense" />
+      <br />
+      <button>Add Expense</button>
+      <p>Recent transactions</p>
+      <ul>
+        {transactions.map((ts) => (
+          <li key={ts.id}>
+            {ts.date} - {ts.category} - ₹{ts.amount.toFixed(2)}
+          </li>
+        ))}
+      </ul>
+    </main>
+  );
 }
 
-export default App
+export default App;

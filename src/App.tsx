@@ -25,13 +25,15 @@ function App() {
     },
   ];
 
-  const total = transactions.reduce((sum, transactions) => sum + transactions.amount, 0);
+  const total = transactions.reduce(
+    (sum, transactions) => sum + transactions.amount,
+    0
+  );
   return (
     <main>
       <h1>Expense Tracker</h1>
       <h3>Total spent</h3>
-      <input type="text" placeholder="Total spent" value={total} readOnly />
-      <br />
+      <p className="total">₹{total.toFixed(2)}</p>
       <input type="text" placeholder="Add new expense" />
       <br />
       <button>Add Expense</button>

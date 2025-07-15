@@ -1,3 +1,6 @@
+import { Doughnut } from "react-chartjs-2";
+import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
+ChartJS.register(ArcElement, Tooltip, Legend);
 import "./App.css";
 
 function App() {
@@ -23,12 +26,39 @@ function App() {
       amount: 100.0,
       description: "Electricity Bill",
     },
+    {
+      id: 4,
+      date: "2025-07-04",
+      category: "Utilities",
+      amount: 50.0,
+      description: "Water Bill",
+    },
   ];
 
   const total = transactions.reduce(
     (sum, transactions) => sum + transactions.amount,
     0
   );
+
+  const categories: { [key: string]: number } = {};
+  transactions.forEach((tx) => {
+    categories[tx.category] = (categories[tx.category] || 0) + tx.amount;
+  });
+
+  const data = {
+    labels: Object.keys(categories),
+    datasets: [
+      {
+        data: Object.values(categories),
+        backgroundColor: ["#590f9a97", "#98098cff", "#9106919e"],
+        borderColor: "#000000",
+        borderWidth: 1,
+        hoverOffset: 10,
+        hoverBorderWidth: 2,
+        color: "white",
+      },
+    ],
+  };
   return (
     <main>
       <h1>Expense Tracker</h1>
@@ -45,6 +75,7 @@ function App() {
           </li>
         ))}
       </ul>
+      <Doughnut className="chart" data={data} options={{ plugins: { legend: { labels: { color: "white" } } } }} />
     </main>
   );
 }

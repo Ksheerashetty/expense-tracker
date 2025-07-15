@@ -30,3 +30,7 @@ input{
   filter: drop-shadow(0 0 2em #61dafbaa);
 }
 
+.chart{
+  max-width: 500px;
+  margin: 10px auto;
+}

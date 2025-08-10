@@ -16,7 +16,7 @@ function App() {
   const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [isOpenModal, setIsOpenModal] = useState(false);
   const [error, setError] = useState<string | null>(null);
-
+  const [isRecent, setIsRecent] = useState(false);
   const categories = transactions.reduce<{ [key: string]: number }>(
     (cat, tx) => {
       cat[tx.category] = (cat[tx.category] || 0) + tx.amount;
@@ -24,7 +24,6 @@ function App() {
     },
     {}
   );
-  
 
   const data = {
     labels: Object.keys(categories),
@@ -68,21 +67,11 @@ function App() {
     //const date = (form.elements.namedItem("date") as HTMLInputElement).value;
     const newExpense: Transaction = {
       id: Date.now(),
-      date: new Date(
-        (form.elements.namedItem("date") as HTMLInputElement).value
-      ).toLocaleDateString(),
-      category:
-        (form.elements.namedItem("category") as HTMLInputElement).value
-          .charAt(0)
-          .toUpperCase() +
-        (form.elements.namedItem("category") as HTMLInputElement).value
-          .slice(1)
-          .toLocaleLowerCase(),
-      amount: parseFloat(
-        (form.elements.namedItem("amount") as HTMLInputElement).value
-      ),
-      description: (form.elements.namedItem("description") as HTMLInputElement)
-        .value,
+      date:new Date((form.elements.namedItem("date") as HTMLInputElement).value).toLocaleDateString(),
+      category:(form.elements.namedItem("category") as HTMLInputElement).value.charAt(0).toUpperCase() +
+      (form.elements.namedItem("category") as HTMLInputElement).value.slice(1).toLocaleLowerCase(),
+      amount:parseFloat((form.elements.namedItem("amount") as HTMLInputElement).value),
+      description:(form.elements.namedItem("description") as HTMLInputElement).value,
     };
     // const formattedDate = new Date(date).toLocaleDateString();
     if (
@@ -151,20 +140,24 @@ function App() {
               ></input>
               <div className="button-group">
                 <button type="submit">Submit</button>
-
-                <button type="button" onClick={() => setIsOpenModal(false)}>
-                  Close
-                </button>
+                <button type="button" onClick={() => setIsOpenModal(false)}>Close</button>
               </div>
             </div>
           </div>
         </form>
       )}
-      <p className="recent-transactions">Recent transactions</p>
-      {transactions.length === 0 ? (
-        "No transactions yet"
-      ) : (
-        <ul>{transactionList}</ul>
+
+      <p className="recent-transactions"
+        onClick={() => setIsRecent((prev) => !prev)}
+      >Recent transactions</p>
+      {isRecent && (
+        <p>
+          {transactions.length === 0 ? (
+            "No transactions yet"
+          ) : (
+            <ul>{transactionList}</ul>
+          )}
+        </p>
       )}
 
       <Doughnut

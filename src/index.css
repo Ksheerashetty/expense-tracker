@@ -86,7 +86,9 @@ button:focus-visible {
 form > .total{
   padding:8px;
 }
-
+.total:hover{
+  cursor: not-allowed;
+}
 ul{
   list-style:circle;
   text-align: start;
@@ -106,9 +108,11 @@ input{
   font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
   font-weight: 600;
 }
+
 .recent-transactions:hover {
- box-shadow: 1px 1px 1px rgb(0, 255, 255);
+  box-shadow: 1px 1px 1px rgb(0, 255, 255);
   transition: background-color 1s, color 1s;
+  cursor: pointer;
 }
 
 .alert-info {

@@ -86,13 +86,15 @@ button:focus-visible {
 form > .total{
   padding:8px;
 }
+
 .total:hover{
   cursor: not-allowed;
 }
-ul{
+
+/* ul{
   list-style:circle;
   text-align: start;
-}
+} */
 
 input{
   width: 200px;
@@ -122,4 +124,30 @@ input{
   padding: 10px;
   border-radius: 5px;
   margin-top: 10px;
+}
+
+.transaction-item{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap:5px;
+  list-style: disc;
+  list-style-position: inside;
+}
+
+.transaction-details {
+flex: 1;
+text-align: left;
+padding-right: 10px;
+}
+
+.edit-delete img {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+}
+
+.edit-delete{
+  display: flex;
+  gap: 10px;
 }

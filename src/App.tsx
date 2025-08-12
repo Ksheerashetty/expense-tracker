@@ -196,6 +196,12 @@ function App() {
       <button
         onClick={(e) => {
           setIsOpenModal(true);
+          setFormData({
+            date: "",
+            category: "",
+            amount: 0,
+            description: "",
+          });
           e.preventDefault();
         }}
       >
@@ -237,6 +243,12 @@ function App() {
                 placeholder="Amount"
                 name="amount"
                 value={formData.amount}
+                // onFocus={(e) => (e.target.value = "")}
+                onFocus={(e) => {
+                  if (Number(e.target.value) === 0) {
+                    e.target.value = "";
+                  }
+                }}
                 onChange={(e) =>
                   setFormData({ ...formData, amount: Number(e.target.value) })
                 }

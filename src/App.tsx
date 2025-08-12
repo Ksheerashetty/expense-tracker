@@ -100,10 +100,10 @@ function App() {
       </span>
       <div className="edit-delete">
         <button onClick={() => handleEdit(ts.id)}>
-          <img src="/src/assets/edit.png" alt="Edit" />
+          <img src="/src/edit.png" alt="Edit" />
         </button>
         <button onClick={() => handleDelete(ts.id)}>
-          <img src="/src/assets/delete.png" alt="Delete" />
+          <img src="/src/delete.png" alt="Delete" />
         </button>
       </div>
     </li>

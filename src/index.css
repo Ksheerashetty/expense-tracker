@@ -150,4 +150,5 @@ padding-right: 10px;
 .edit-delete{
   display: flex;
   gap: 10px;
+  margin: 2px;
 }

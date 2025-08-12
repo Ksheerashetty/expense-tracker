@@ -3,6 +3,8 @@ import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 ChartJS.register(ArcElement, Tooltip, Legend);
 import "./App.css";
 import { useState } from "react";
+import editIcon from "./edit.png";
+import DeleteIcon from "./delete.png";
 
 type Transaction = {
   id: number;
@@ -100,10 +102,10 @@ function App() {
       </span>
       <div className="edit-delete">
         <button onClick={() => handleEdit(ts.id)}>
-          <img src="/src/edit.png" alt="Edit" />
+          <img src={editIcon} alt="Edit" />
         </button>
         <button onClick={() => handleDelete(ts.id)}>
-          <img src="/src/delete.png" alt="Delete" />
+          <img src={DeleteIcon} alt="Delete" />
         </button>
       </div>
     </li>

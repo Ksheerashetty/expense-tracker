@@ -9,7 +9,7 @@ A simple React-based expense tracker app to manage daily spending.
 
 ## Tech Stack
 - React (with vite)
-- JavaScript
+- TypeScript
 - CSS
 - Chart.js
 

@@ -2,7 +2,7 @@ import { Doughnut } from "react-chartjs-2";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 ChartJS.register(ArcElement, Tooltip, Legend);
 import "./App.css";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import editIcon from "./edit.png";
 import DeleteIcon from "./delete.png";
 
@@ -15,29 +15,14 @@ type Transaction = {
 };
 
 function App() {
-  const [transactions, setTransactions] = useState<Transaction[]>([
-    {
-      id: 1,
-      date: "2023-10-01",
-      category: "Food",
-      amount: 500,
-      description: "Groceries",
-    },
-    {
-      id: 2,
-      date: "2023-10-02",
-      category: "Transport",
-      amount: 150,
-      description: "Bus fare",
-    },
-    {
-      id: 3,
-      date: "2023-10-03",
-      category: "Entertainment",
-      amount: 300,
-      description: "Movie tickets",
-    },
-  ]);
+  const [transactions, setTransactions] = useState<Transaction[]>(() => {
+    const saved = localStorage.getItem("expenses");
+    return saved ? JSON.parse(saved) : [];
+  });
+  useEffect(() => {
+    localStorage.setItem("expenses", JSON.stringify(transactions));
+  }, [transactions]);
+  
   const [isOpenModal, setIsOpenModal] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [isRecent, setIsRecent] = useState(false);

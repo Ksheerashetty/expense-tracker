@@ -69,6 +69,7 @@ button:focus-visible {
   display: flex;
   gap: 10px;
   margin: 15px;
+  justify-content: center;
 }
 
 .overlay{

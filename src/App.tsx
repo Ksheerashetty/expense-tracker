@@ -1,70 +1,56 @@
 import { Doughnut } from "react-chartjs-2";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
-ChartJS.register(ArcElement, Tooltip, Legend);
 import "./App.css";
-import { useState, useEffect } from "react";
-import editIcon from "./edit.png";
-import DeleteIcon from "./delete.png";
+import { useState } from "react";
+import { useTransactions } from "./hooks/useTransactions";
+import type { TransactionInput } from "./types";
+import { TransactionList } from "./components/Dashboard/TransactionList";
+import { TransactionForm } from "./components/Dashboard/TransactionForm";
 
-type Transaction = {
-  id: number;
-  date: string;
-  category: string;
-  amount: number;
-  description: string;
-};
+ChartJS.register(ArcElement, Tooltip, Legend);
 
 function App() {
-  const [transactions, setTransactions] = useState<Transaction[]>(() => {
-    const saved = localStorage.getItem("expenses");
-    return saved ? JSON.parse(saved) : [];
-  });
-  useEffect(() => {
-    localStorage.setItem("expenses", JSON.stringify(transactions));
-  }, [transactions]);
-  
-  const [isOpenModal, setIsOpenModal] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const [isRecent, setIsRecent] = useState(false);
-  const [formData, setFormData] = useState({
-    date: "",
-    category: "",
-    amount: 0,
-    description: "",
-  });
-  const [editId, setEditId] = useState<number | null>(null);
-  const categories = transactions.reduce<{ [key: string]: number }>(
-    (cat, tx) => {
-      cat[tx.category] = (cat[tx.category] || 0) + tx.amount;
-      return cat;
-    },
-    {}
-  );
+  const {
+    transactions,
+    total,
+    categoryTotal,
+    addTransaction,
+    deleteTransaction,
+    editTransaction,
+    averageTransaction,
+  } = useTransactions();
 
+  const [isOpenModal, setIsOpenModal] = useState(false);
+  const [isRecent, setIsRecent] = useState(false);
+  const [editId, setEditId] = useState<number | null>(null);
+  const [searchTerm, setSearchTerm] = useState("");
   const colorPalette = [
     "#590f9a97",
     "#98098cff",
     "#9106919e",
     "#690ff0ff",
-    "#33ff57",
+    "#0f5ac2ff",
     "#74089bff",
-    "#f4d03f",
+    "#3ff4f1ff",
     "#16a085",
     "#8e44ad",
-    "#e67e22",
-    "#2ecc71",
+    "#22e6abff",
+    "#2e4eccff",
     "#1abc9c",
-    "#d35400",
-    "#c0392b",
-    "#2c3e50",
+    "#1500d3ff",
+    "#a72bc0ff",
+    "#490569ff",
   ];
 
-  const data = {
-    labels: Object.keys(categories),
+  const chartData = {
+    labels: Object.keys(categoryTotal),
     datasets: [
       {
-        data: Object.values(categories),
-        backgroundColor: colorPalette.slice(0, Object.keys(categories).length),
+        data: Object.values(categoryTotal),
+        backgroundColor: colorPalette.slice(
+          0,
+          Object.keys(categoryTotal).length
+        ),
         borderColor: "#000000",
         borderWidth: 1,
         hoverOffset: 10,
@@ -74,213 +60,93 @@ function App() {
     ],
   };
 
-  const transactionList = transactions.map((ts) => (
-    <li key={ts.id} className="transaction-item">
-      <span className="transaction-details">
-        {ts.date} - {ts.category} - {ts.description} -{" "}
-        {ts.amount.toLocaleString("en-IN", {
-          style: "currency",
-          currency: "INR",
-          minimumFractionDigits: 2,
-          maximumFractionDigits: 2,
-        })}
-      </span>
-      <div className="edit-delete">
-        <button onClick={() => handleEdit(ts.id)}>
-          <img src={editIcon} alt="Edit" />
-        </button>
-        <button onClick={() => handleDelete(ts.id)}>
-          <img src={DeleteIcon} alt="Delete" />
-        </button>
-      </div>
-    </li>
-  ));
+  const handleEditClick = (id: number) => {
+    setEditId(id);
+    setIsOpenModal(true);
+  };
 
-  const total = transactions
-    .reduce((sum, transactions) => sum + transactions.amount, 0)
-    .toLocaleString("en-IN", {
-      style: "currency",
-      currency: "INR",
-      minimumFractionDigits: 2,
-      maximumFractionDigits: 2,
-    });
+  const handleAddClick = () => {
+    setEditId(null);
+    setIsOpenModal(true);
+  };
 
-  function handleEdit(id: number) {
-    console.log("edit", id);
-    const editTransaction = transactions.find((tx) => tx.id === id);
-    if (editTransaction) {
-      setFormData({
-        date: editTransaction.date,
-        category: editTransaction.category,
-        description: editTransaction.description,
-        amount: editTransaction.amount,
-      });
-      setIsOpenModal(true);
-      setEditId(id);
-    }
-  }
+  const editingTransaction = transactions.find((tx) => tx.id === editId);
 
-  function handleDelete(id: number) {
-    if (confirm("Are you sure you want to delete this transaction?")) {
-      setTransactions((prev) => prev.filter((tx) => tx.id !== id));
-    }
-  }
-
-  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-    if (editId !== null) {
-      setTransactions((prev) =>
-        prev.map((tx) => (tx.id === editId ? { ...tx, ...formData } : tx))
-      );
+  const handleFormSubmit = (data: TransactionInput) => {
+    if (editId) {
+      editTransaction(editId, data);
     } else {
-      const form = e.currentTarget;
-      //const date = (form.elements.namedItem("date") as HTMLInputElement).value;
-      const newExpense: Transaction = {
-        id: Date.now(),
-        date: new Date(
-          (form.elements.namedItem("date") as HTMLInputElement).value
-        ).toLocaleDateString(),
-        category:
-          (form.elements.namedItem("category") as HTMLInputElement).value
-            .charAt(0)
-            .toUpperCase() +
-          (form.elements.namedItem("category") as HTMLInputElement).value
-            .slice(1)
-            .toLocaleLowerCase(),
-        amount: parseFloat(
-          (form.elements.namedItem("amount") as HTMLInputElement).value
-        ),
-        description: (
-          form.elements.namedItem("description") as HTMLInputElement
-        ).value,
-      };
-      // const formattedDate = new Date(date).toLocaleDateString();
-      if (
-        newExpense.amount <= 0 ||
-        isNaN(newExpense.amount) ||
-        !newExpense.description ||
-        !newExpense.category ||
-        !newExpense.date
-      ) {
-        setError("Please enter valid details");
-        return;
-      }
-      setError(null);
-
-      setTransactions((prev) => [...prev, newExpense]);
+      addTransaction(data);
     }
-    setIsOpenModal((prev) => !prev);
-  }
+    setIsOpenModal(false);
+  };
+
+  const filteredTransactions = transactions.filter((tx) => {
+    return (
+      tx.description
+        .toLocaleLowerCase()
+        .includes(searchTerm.toLocaleLowerCase()) ||
+      tx.category.toLocaleLowerCase().includes(searchTerm.toLocaleLowerCase())
+    );
+  });
 
   return (
     <main>
       <h1>Expense Tracker</h1>
       <h3>Total spent</h3>
-      <p className="total">{total}</p>
+      <p className="total">
+        {total.toLocaleString("en-IN", {
+          style: "currency",
+          currency: "INR",
+        })}
+      </p>
       <br />
-      <button
-        onClick={(e) => {
-          setIsOpenModal(true);
-          setFormData({
-            date: "",
-            category: "",
-            amount: 0,
-            description: "",
-          });
-          e.preventDefault();
-        }}
-      >
-        Add Expense
-      </button>
 
-      {isOpenModal && (
-        <form onSubmit={handleSubmit}>
-          <div className="overlay">
-            <div className="modal">
-              {error && (
-                <div className="alert-info" role="alert">
-                  {error}
-                </div>
-              )}
-              <input
-                type="date"
-                placeholder="Date (MM-DD-YYYY)"
-                name="date"
-                value={formData.date}
-                onChange={(e) =>
-                  setFormData({ ...formData, date: e.target.value })
-                }
-                max={new Date().toISOString().split("T")[0]}
-                required
-              ></input>
-              <input
-                type="text"
-                placeholder="Category"
-                name="category"
-                value={formData.category}
-                onChange={(e) =>
-                  setFormData({ ...formData, category: e.target.value })
-                }
-                required
-              ></input>
-              <input
-                type="number"
-                placeholder="Amount"
-                name="amount"
-                value={formData.amount}
-                // onFocus={(e) => (e.target.value = "")}
-                onFocus={(e) => {
-                  if (Number(e.target.value) === 0) {
-                    e.target.value = "";
-                  }
-                }}
-                onChange={(e) =>
-                  setFormData({ ...formData, amount: Number(e.target.value) })
-                }
-                required
-              ></input>
-              <input
-                type="text"
-                placeholder="Description"
-                name="description"
-                value={formData.description}
-                onChange={(e) =>
-                  setFormData({ ...formData, description: e.target.value })
-                }
-                required
-              ></input>
-              <div className="button-group">
-                <button type="submit">Submit</button>
-                <button type="button" onClick={() => setIsOpenModal(false)}>
-                  Close
-                </button>
-              </div>
-            </div>
-          </div>
-        </form>
-      )}
+      <button onClick={handleAddClick}>Add Expense</button>
 
-      <p
-        className="recent-transactions"
-        onClick={() => setIsRecent((prev) => !prev)}
-      >
+      <TransactionForm
+        isOpen={isOpenModal}
+        onClose={() => setIsOpenModal(false)}
+        onSubmit={handleFormSubmit}
+        initialData={editingTransaction}
+      />
+
+      <p className="recent-transactions" onClick={() => setIsRecent(!isRecent)}>
         Recent transactions
       </p>
-      {isRecent && (
-        <p>
-          {transactions.length === 0 ? (
-            "No transactions yet"
-          ) : (
-            <ul>{transactionList}</ul>
-          )}
-        </p>
-      )}
 
-      <Doughnut
-        className="chart"
-        data={data}
-        options={{ plugins: { legend: { labels: { color: "white" } } } }}
-      />
+      {isRecent && (
+        <>
+          <div>
+            <input
+              className="searchInput"
+              type="text"
+              name={searchTerm}
+              placeholder="🔍 Search transactions....."
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
+          </div>
+
+          <TransactionList
+            transactions={filteredTransactions}
+            onEdit={handleEditClick}
+            onDelete={deleteTransaction}
+          />
+        </>
+      )}
+      <h4>Average Transaction</h4>
+      <p className="total">
+        {averageTransaction.toLocaleString("en-IN", {
+          style: "currency",
+          currency: "INR",
+        })}
+      </p>
+      <div className="chart-container">
+        <Doughnut
+          data={chartData}
+          options={{ plugins: { legend: { labels: { color: "white" } } } }}
+        />
+      </div>
     </main>
   );
 }

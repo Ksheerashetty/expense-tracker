@@ -3,21 +3,21 @@
   text-align: center;
 }
 
-h1{
-  margin-top:0px;
+h1 {
+  margin-top: 0px;
 }
 
-.total{
+.total {
   border: 2px solid #646cff;
   border-radius: 10px;
-  padding:5px;
-  margin:0;
+  padding: 5px;
+  margin: 0;
   max-width: fit-content;
   justify-self: center;
 }
 
-input{
-  border: 2px solid  #61dafbaa;
+input {
+  border: 2px solid #61dafbaa;
   border-radius: 10px;
   padding: 8px;
   margin: 10px;
@@ -30,7 +30,17 @@ input{
   filter: drop-shadow(0 0 2em #61dafbaa);
 }
 
-.chart{
+.chart {
   max-width: 500px;
   margin: 10px auto;
+}
+
+.chart-container {
+  justify-content: center;
+  display: flex;
+}
+
+.searchInput {
+  padding: 10px auto;
+  text-align: center;
 }

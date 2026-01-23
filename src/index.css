@@ -1,7 +1,7 @@
 :root {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
-  font-weight: 400; 
+  font-weight: 400;
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
   background-color: #242424;
@@ -26,9 +26,11 @@ button {
   cursor: pointer;
   transition: border-color 0.25s;
 }
+
 button:hover {
   border-color: #646cff;
 }
+
 button:focus,
 button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
@@ -39,31 +41,16 @@ button:focus-visible {
     color: #213547;
     background-color: #ffffff;
   }
+
   a:hover {
     color: #747bff;
   }
+
   button {
     background-color: #f9f9f9;
   }
 }
 
-.modal{
-  background-color: #33047586;
-  border-radius: 10px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 10px;
-  box-shadow: 0 0 10px rgba(0, 234, 255, 0.995);
-}
-
-.modal input {
-  border: 2px solid #646cff;
-  border-radius: 10px;
-  margin: 10px 5px;
-  padding: 5px;
-}
 
 .button-group {
   display: flex;
@@ -72,23 +59,23 @@ button:focus-visible {
   justify-content: center;
 }
 
-.overlay{
-  position:fixed;
-  top:0;
-  left:0;
-  width:100vw;
-  height:100vh;
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
   backdrop-filter: blur(5px);
 }
 
-form > .total{
-  padding:8px;
+form>.total {
+  padding: 8px;
 }
 
-.total:hover{
+.total:hover {
   cursor: not-allowed;
 }
 
@@ -97,25 +84,8 @@ form > .total{
   text-align: start;
 } */
 
-input{
+input {
   width: 200px;
-}
-
-.recent-transactions{
-  border: 1px solid #646cff;
-  border-radius: 10px;
-  padding: 5px;
-  width: 200px;
-  margin: 10px auto;
-  text-align: center;
-  font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
-  font-weight: 600;
-}
-
-.recent-transactions:hover {
-  box-shadow: 1px 1px 1px rgb(0, 255, 255);
-  transition: background-color 1s, color 1s;
-  cursor: pointer;
 }
 
 .alert-info {
@@ -127,19 +97,66 @@ input{
   margin-top: 10px;
 }
 
-.transaction-item{
+/* .transaction-item {
   display: flex;
-  justify-content: space-between;
+  justify-content: space-evenly;
   align-items: center;
-  gap:5px;
+  gap: 5px;
   list-style: disc;
   list-style-position: inside;
 }
 
 .transaction-details {
-flex: 1;
-text-align: left;
-padding-right: 10px;
+  flex: 1;
+  text-align: left;
+  padding-right: 10px;
+} */
+
+.transactions-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+  color: white;
+}
+
+.transactions-table th {
+  text-align: center;
+  padding: 10px;
+  font-weight: 600;
+  color: #cccccc;
+  font-size: x-large;
+  font-family: "Gravitas One", serif;
+  font-style: normal;
+}
+
+
+.transactions-table td {
+  padding: 10px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  font-family: "Gravitas One", serif;
+  font-weight: 400;
+  font-size: larger;
+  font-style: normal;
+
+}
+
+.category-icon {
+  margin-right: 8px;
+  font-size: 18px;
+}
+
+/* Actions column */
+.action-buttons {
+  display: flex;
+  gap: 10px;
+
+}
+
+.action-buttons button {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+
 }
 
 .edit-delete img {
@@ -148,7 +165,7 @@ padding-right: 10px;
   cursor: pointer;
 }
 
-.edit-delete{
+.edit-delete {
   display: flex;
   gap: 10px;
   margin: 2px;

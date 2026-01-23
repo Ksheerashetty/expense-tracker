@@ -7,15 +7,6 @@ h1 {
   margin-top: 0px;
 }
 
-.total {
-  border: 2px solid #646cff;
-  border-radius: 10px;
-  padding: 5px;
-  margin: 0;
-  max-width: fit-content;
-  justify-self: center;
-}
-
 input {
   border: 2px solid #61dafbaa;
   border-radius: 10px;
@@ -26,21 +17,281 @@ input {
 .logo:hover {
   filter: drop-shadow(0 0 2em #646cffaa);
 }
+
 .logo.react:hover {
   filter: drop-shadow(0 0 2em #61dafbaa);
 }
 
-.chart {
-  max-width: 500px;
-  margin: 10px auto;
-}
-
 .chart-container {
-  justify-content: center;
   display: flex;
+  justify-content: space-between;
+  gap: 50px;
+  margin-top: 20px;
 }
 
 .searchInput {
   padding: 10px auto;
   text-align: center;
+}
+
+.trans-total {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.total-card {
+  background: #0a1d4a;
+  border-radius: 12px;
+  padding: 20px 40px;
+  flex: 1;
+  text-align: center;
+  display: flex;
+  justify-content: space-between;
+}
+
+.total-card h3 {
+  font-size: 14px;
+  color: #aab1c5;
+  margin-bottom: 10px;
+}
+
+.total-card p {
+  font-size: 20px;
+  font-weight: bold;
+  margin: 0;
+  color: white;
+}
+
+
+
+.chart-card {
+  background: #021851;
+  border-radius: 12px;
+  padding: 20px 40px;
+  width: 450px;
+  height: 360px;
+  /* increased so nothing overflows */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.chart-card h3 {
+  font-size: 16px;
+  color: #aab1c5;
+  margin-bottom: 10px;
+}
+
+.chart-wrapper {
+  width: 100%;
+  height: 300px;
+  /* perfect doughnut size */
+}
+
+
+.recent-transaction {
+  border: 1px solid cyan;
+  margin: 30px auto;
+  border-radius: 12px;
+  padding: 10px;
+}
+
+.recent {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+
+.recent-transactions {
+  border: 1px solid #646cff;
+  border-radius: 10px;
+  padding: 5px;
+  width: 200px;
+  margin: 10px;
+  text-align: center;
+  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+  font-weight: 600;
+}
+
+.recent-transactions:hover {
+  box-shadow: 1px 1px 1px rgb(0, 255, 255);
+  transition: background-color 1s, color 1s;
+  cursor: pointer;
+}
+
+.cash {
+  width: 50px;
+  height: 50px;
+  margin: 10px;
+}
+
+.add-expense-btn {
+  position: fixed;
+  bottom: 40px;
+  right: 40px;
+  background: rgba(0, 255, 240, 0.15);
+  color: #00e5ff;
+  padding: 14px 28px;
+  border-radius: 50px;
+  border: 2px solid rgba(0, 255, 240, 0.4);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 0 20px rgba(0, 229, 255, 0.6);
+  cursor: pointer;
+  font-weight: 600;
+  transition: 0.3s ease;
+}
+
+.add-expense-btn:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 0 30px rgba(0, 229, 255, 1);
+  border-color: rgba(0, 255, 240, 0.7);
+}
+
+@media (max-width: 1024px) {
+  .add-expense-btn {
+    bottom: 30px;
+    right: 25px;
+    padding: 12px 22px;
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 768px) {
+  .add-expense-btn {
+    bottom: 20px;
+    right: 20px;
+    padding: 10px 20px;
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 480px) {
+  .add-expense-btn {
+    bottom: 15px;
+    right: 15px;
+    padding: 8px 16px;
+    font-size: 12px;
+    border-radius: 40px;
+  }
+}
+
+.form-field {
+  border: 2px solid #646cff;
+  border-radius: 10px;
+  padding: 10px;
+  margin: 10px 5px;
+  width: 200px;
+  box-sizing: border-box;
+  background-color: #42016d;
+}
+
+.form-field select,
+.form-field option {
+  background: #1a1a1a;
+  color: white;
+}
+
+.modal {
+  background-color: #33047586;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+  box-shadow: 0 0 10px rgba(0, 234, 255, 0.995);
+}
+
+.app-title {
+  font-family: "Gravitas One", serif;
+  font-weight: 400;
+  /* Gravitas One only has one weight */
+  font-size: 48px;
+  /* Adjust to what looks best */
+  color: white;
+  /* or your neon blue */
+  text-align: left;
+  margin-bottom: 0;
+}
+
+.title {
+  display: flex;
+}
+
+.insights-card {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 12px;
+  padding: 20px;
+  min-width: 350px;
+  color: white;
+}
+
+.insights-card h3 {
+  margin-bottom: 15px;
+  font-size: 18px;
+  font-weight: 600;
+  color: #d1d1ff;
+}
+
+.insights-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.insight-row {
+  display: grid;
+  grid-template-columns: 120px 80px 80px;
+  grid-template-rows: auto auto;
+  row-gap: 6px;
+  column-gap: 10px;
+  align-items: center;
+}
+
+.insight-info {
+  grid-column: 1 / 2;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 15px;
+}
+
+.insight-icon {
+  font-size: 20px;
+}
+
+.insight-name {
+  font-weight: 500;
+}
+
+.insight-percentage {
+  grid-column: 2 / 3;
+  font-size: 14px;
+  color: #bfbfff;
+}
+
+.insight-amount {
+  grid-column: 3 / 4;
+  font-size: 14px;
+}
+
+.insight-bar {
+  grid-column: 1 / 4;
+  height: 6px;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 6px;
+  overflow: hidden;
+  position: relative;
+}
+
+.insight-bar::after {
+  content: "";
+  position: absolute;
+  height: 100%;
+  width: var(--bar-width);
+  background: var(--bar-color);
+  border-radius: 6px;
 }

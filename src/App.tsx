@@ -11,6 +11,7 @@ import AverageIcon from './average.png'
 import titleWallet from './title.png'
 import TransactionsIcon from './transactions.png'
 ChartJS.register(ArcElement, Tooltip, Legend, CategoryScale, LinearScale, BarElement, Title);
+//import { CategoryInsights } from "./components/Dashboard/CategoryInsights";
 function App() {
   const {
     transactions,
